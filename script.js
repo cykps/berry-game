@@ -89,7 +89,7 @@ MATTER_ELE.addEventListener('click', () => {
         label: "1",
         render: {
             sprite: {
-                texture: '/src/img/cranberry_256.png',
+                texture: './src/img/cranberry_256.png',
                 xScale: 0.16,
                 yScale: 0.16,
             }
@@ -166,7 +166,7 @@ Events.on(engine, 'collisionStart', e => {
                         label: "1",
                         render: {
                             sprite: {
-                                texture: '/src/img/blackberry_256.png',
+                                texture: './src/img/blackberry_256.png',
                                 xScale: fruits[0][2],
                                 yScale: fruits[0][2],
                             }
@@ -180,7 +180,7 @@ Events.on(engine, 'collisionStart', e => {
                         label: "2",
                         render: {
                             sprite: {
-                                texture: `/src/img/${fruits[1][0]}_256.png`,
+                                texture: `./src/img/${fruits[1][0]}_256.png`,
                                 xScale: fruits[1][2],
                                 yScale: fruits[1][2],
                             }
@@ -193,7 +193,7 @@ Events.on(engine, 'collisionStart', e => {
                         label: "3",
                         render: {
                             sprite: {
-                                texture: `/src/img/${fruits[2][0]}_256.png`,
+                                texture: `./src/img/${fruits[2][0]}_256.png`,
                                 xScale: fruits[2][2],
                                 yScale: fruits[2][2],
                             }
@@ -206,7 +206,7 @@ Events.on(engine, 'collisionStart', e => {
                         label: "4",
                         render: {
                             sprite: {
-                                texture: `/src/img/${fruits[3][0]}_256.png`,
+                                texture: `./src/img/${fruits[3][0]}_256.png`,
                                 xScale: fruits[3][2],
                                 yScale: fruits[3][2],
                             }
@@ -219,7 +219,7 @@ Events.on(engine, 'collisionStart', e => {
                         label: "5",
                         render: {
                             sprite: {
-                                texture: `/src/img/${fruits[4][0]}_256.png`,
+                                texture: `./src/img/${fruits[4][0]}_256.png`,
                                 xScale: fruits[4][2],
                                 yScale: fruits[4][2],
                             }
