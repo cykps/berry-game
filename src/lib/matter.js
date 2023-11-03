@@ -25,6 +25,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+console.log("road");
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -155,6 +157,8 @@ module.exports = Common;
         var argsStart,
             args,
             deepClone;
+
+            console.log("common.extend", obj, deep)
 
         if (typeof deep === 'boolean') {
             argsStart = 2;
@@ -1685,7 +1689,9 @@ var Axes = __webpack_require__(11);
 
         var body = Common.extend(defaults, options);
 
+        console.log(options);
         _initProperties(body, options);
+        
 
         return body;
     };
@@ -5234,6 +5240,7 @@ var Vector = __webpack_require__(2);
      * @return {body} A new circle body
      */
     Bodies.circle = function(x, y, radius, options, maxSides) {
+        console.log("circle");
         options = options || {};
 
         var circle = {
@@ -8891,6 +8898,8 @@ var Mouse = __webpack_require__(14);
      * @param {render} render
      */
     Render.world = function(render, time) {
+
+        console.log("Hello, World")
         var startTime = Common.now(),
             engine = render.engine,
             world = engine.world,
@@ -9280,6 +9289,7 @@ var Mouse = __webpack_require__(14);
      * @param {RenderingContext} context
      */
     Render.bodies = function(render, bodies, context) {
+        console.log("hello body")
         var c = context,
             engine = render.engine,
             options = render.options,
@@ -9288,6 +9298,8 @@ var Mouse = __webpack_require__(14);
             part,
             i,
             k;
+
+            console.log("Render.bodies");
 
         for (i = 0; i < bodies.length; i++) {
             body = bodies[i];
@@ -9308,10 +9320,14 @@ var Mouse = __webpack_require__(14);
                     c.globalAlpha = part.render.opacity;
                 }
 
+                console.log(1)
+
                 if (part.render.sprite && part.render.sprite.texture && !options.wireframes) {
                     // part sprite
                     var sprite = part.render.sprite,
                         texture = _getTexture(render, sprite.texture);
+
+                        console.log(2)
 
                     c.translate(part.position.x, part.position.y);
                     c.rotate(part.angle);
@@ -10042,6 +10058,8 @@ var Mouse = __webpack_require__(14);
 
         image = render.textures[imagePath] = new Image();
         image.src = imagePath;
+
+        console.log("run")
 
         return image;
     };
