@@ -26,12 +26,6 @@ const render = Render.create({
 	engine: engine,
 	options: {
 		width: WIDTH, height: HEIGHT,
-		showAngleIndicator: true,
-		showCollisions: true,
-		showDebug: false,
-		showIds: true,
-		showVelocity: true,
-		hasBounds: true,
 		wireframes: true,
 	}
 });
@@ -65,11 +59,8 @@ function addGhostFruit() {
 
 // クリック時
 
-let fruitImage = new Image();
-fruitImage.src = '/src/img/blueberry.pn'; // 画像の読み込み
-
 MATTER_ELE.addEventListener('click', () => {
-    let fruit = Bodies.rectangle(WIDTH/2, HEIGHT/2, 100, 100, {label: "fruit_1", render: {sprite: {texture: "./src/img/blueberry.png"}}});
+    let fruit = Bodies.circle(WIDTH/2, HEIGHT/2, 20, {label: "fruit_1", render: {sprite: {texture: '../img/blackberry.png'}}});
     Composite.add(engine.world, fruit);
 });
 
@@ -114,3 +105,5 @@ Events.on(engine, 'collisionStart', e => {
     });
 });
 
+let fruit = Bodies.circle(WIDTH/2, HEIGHT/2, 20, {label: "fruit_1", render: {sprite: {texture: '../img/blackberry.png'}}});
+Composite.add(engine.world, fruit);
