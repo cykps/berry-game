@@ -3,7 +3,7 @@
 // const
 const WIDTH = 600;
 const HEIGHT = 1024;
-const BOWL_SIZE = 360;
+const BOWL_SIZE = 370;
 const BOWL_THICKNESS = 20;
 const RESTITUTION = 0.8;
 const FRICTION = 0.1;
@@ -101,36 +101,31 @@ MATTER_ELE.addEventListener('click', () => {
 
 // センサーによって、重力を変化させる。
 
-
-function start() {
-    // alert("button");
+if (IS_IPhone) {    // alert("button");
+    alert('iPhone')
     // モーションセンサーが有効か？
     if (window.DeviceOrientationEvent) {
       // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
-      if (DeviceOrientationEvent.requestPermission) {
-        // ★モーションセンサーのアクセス許可をリクエストする
-        DeviceOrientationEvent.requestPermission()
-          .then(function (response) {
-            // リクエストが許可されたら
-            if (response === "granted") {
-              // deviceorientationが有効化される
-              alert("モーションセンサーがONです🎉");
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-        // iOS13以外
-      } else {
-        alert('設定から"モーションセンサー"をONにしてください');
-      }
+        if (DeviceOrientationEvent.requestPermission) {
+            // ★モーションセンサーのアクセス許可をリクエストする
+            DeviceOrientationEvent.requestPermission()
+                .then(function (response) {
+                // リクエストが許可されたら
+                    if (response === "granted") {
+                      // deviceorientationが有効化される
+                    alert("モーションセンサーがONです🎉");
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+            // iOS13以外
+            } else {
+            alert('設定から"モーションセンサー"をONにしてください');
+        }
     } else {
-      alert("モーションセンサーが使えないかも...");
+        alert("モーションセンサーが使えないかも...");
     }
-  }
-
-if (IS_IPhone) {
-start();
 }
 
 if (IS_ANDROID) { 
@@ -152,7 +147,7 @@ addGhostFruit();
 Events.on(engine, 'collisionStart', e => {
     const pairs = e.pairs;
 
-    pairs.forEach(pair => {
+    for (const pair of pairs) {
         const {bodyA, bodyB} = pair;
         if (bodyA.label === bodyB.label) {
             // 剛体を静止状態に設定してから削除
@@ -229,7 +224,9 @@ Events.on(engine, 'collisionStart', e => {
                     console.log(4,bodyA.label,bodyB.label);
                     break;
             }
+            
+            break;
         }
-    });
+    };
 });
 
