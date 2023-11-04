@@ -133,11 +133,11 @@ function start() {
 
 if (IS_ANDROID) { 
     window.addEventListener('deviceorientation', (e) => {
-        engine.world.gravity.x = 100 * e.gamma;
+        engine.world.gravity.x = 0.1 * e.gamma;
     });
 } else if (IS_IPhone) {
     window.addEventListener('deviceorientation', (e) => {
-        engine.world.gravity.x = 100 * e.gamma;
+        engine.world.gravity.x = 0.1 * e.gamma;
     });
 }
 
