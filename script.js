@@ -101,23 +101,6 @@ MATTER_ELE.addEventListener('click', () => {
 
 // センサーによって、重力を変化させる。
 
-if (IS_ANDROID) { 
-    window.addEventListener('devicemotion', (e) => {
-        const {x, y} = e.acceleration;
-        engine.world.gravity.x = -((x * Math.sqrt(x ** 2 + y ** 2)) * SMALL_G);
-        engine.world.gravity.y = (y * Math.sqrt(x ** 2 + y ** 2) * SMALL_G);
-    });
-} else if (IS_IPhone) {
-    window.addEventListener('devicemotion', (e) => {
-        const {x, y} = e.acceleration;
-        engine.world.gravity.x = x * Math.sqrt(x ** 2 + y ** 2);
-        engine.world.gravity.y = -(y * Math.sqrt(x ** 2 + y ** 2));
-    });
-}
-
-
-
-// 初回実行
 
 function start() {
     // alert("button");
@@ -145,6 +128,23 @@ function start() {
       alert("モーションセンサーが使えないかも...");
     }
   }
+
+
+if (IS_ANDROID) { 
+    window.addEventListener('deviceorientation', (e) => {
+        const {x, y} = e.acceleration;
+        engine.world.gravity.y = 0.1 * e.gamma;
+    });
+} else if (IS_IPhone) {
+    window.addEventListener('deviceorientation', (e) => {
+        const {x, y} = e.acceleration;
+        engine.world.gravity.y = 0.1 * e.gamma;
+    });
+}
+
+
+
+// 初回実行
 
 addGhostFruit();
 
