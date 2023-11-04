@@ -24,6 +24,7 @@ let score = 0;
 let life = 0;
 let maxLife = 8;
 let lifeFruitNo = 2;
+let isGaming = false;
 
 // element
 let scoreEle = document.querySelector('#score');
@@ -68,6 +69,7 @@ Render.run(render);
 const ground = Bodies.rectangle( WIDTH/2, HEIGHT + fruits[fruits.length - 1][1] + 4, WIDTH * 5, 4 * 2, {
     label: 'ground',
     isStatic: true,
+    removeOnRestart: false,
 });
 
 const bowl = Composite.create();
@@ -75,6 +77,7 @@ let bowls = [];
 for (let i = 0; i < 225; i+= 45) {
     bowls[i] = Bodies.rectangle(BOWL_SIZE/2 + Math.cos(i * DEGREES) * BOWL_SIZE/2, BOWL_SIZE/2 + Math.sin(i * DEGREES) * BOWL_SIZE/2, BOWL_THICKNESS, BOWL_SIZE * (Math.sqrt(2) -1) + BOWL_THICKNESS , {
         label: 'bowl',
+        removeOnRestart: false,
         angle: i *DEGREES,
         isStatic: true,
         render: {
@@ -93,47 +96,48 @@ const runner = Runner.create();
 Runner.run(runner, engine);
 
 
-
+/*
 // ゴーストフルーツ
 let ghostFruit = null;
 function addGhostFruit() {
     ghostFruit = Bodies.circle(WIDTH/2, HEIGHT/2, 20, {isSensor: true, isStatic: true});
     Composite.add(engine.world, ghostFruit);
 }
+*/
 
-
+/*
 // クリック時
 MATTER_ELE.addEventListener('click', () => {
     Composite.add(engine.world, fruitBody(0, [WIDTH/2, WIDTH/3]));
 });
-
+*/
 
 // モーションセンサーの有効化
 window.alert = () => {}; // for Dev
 
-    // モーションセンサーが有効か？
-    if (window.DeviceOrientationEvent) {
-        // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
-        if (DeviceOrientationEvent.requestPermission) {
-            // ★モーションセンサーのアクセス許可をリクエストする
-            DeviceOrientationEvent.requestPermission()
-                .then(function (response) {
-                // リクエストが許可されたら
-                    if (response === "granted") {
-                      // deviceorientationが有効化される
-                    alert("モーションセンサーがONです🎉");
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-            // iOS13以外
-            } else {
-            alert('設定から"モーションセンサー"をONにしてください🙇');
-        }
-    } else {
-        // alert("モーションセンサーがありません😭");
+// モーションセンサーが有効か？
+if (window.DeviceOrientationEvent) {
+    // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
+    if (DeviceOrientationEvent.requestPermission) {
+        // ★モーションセンサーのアクセス許可をリクエストする
+        DeviceOrientationEvent.requestPermission()
+            .then(function (response) {
+            // リクエストが許可されたら
+                if (response === "granted") {
+                  // deviceorientationが有効化される
+                alert("モーションセンサーがONです🎉");
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+        // iOS13以外
+        } else {
+        alert('設定から"モーションセンサー"をONにしてください🙇');
     }
+} else {
+    alert("モーションセンサーがありません😭");
+}
 
 
 // センサーによって、重力を変化させる。
@@ -175,14 +179,15 @@ Events.on(engine, 'collisionStart', e => {
             Sleeping.set(bodyB, true);
             World.remove(engine.world, [bodyA, bodyB]);
             let fruitNo = bodyA.label;
-            if (bodyA.label <= fruits.length - 1) {
+            if (bodyA.label < fruits.length - 1) {
                 Composite.add(engine.world, fruitBody(fruitNo+ 1, position));
             } else if (bodyA.label === fruits.length) {
                 setLife(lift + (2 ** ((fruits.length + 1) - lifeFruitNo)));
             }
-        }
-        setScore(score + fruits[fruitNo][3]);
-        break;
+            console.log(fruits[bodyA.label][0]);
+            setScore(score + fruits[bodyA.label][3]);
+        };
+    break;
     };
 });
 
@@ -192,6 +197,7 @@ function fruitBody(fruitNo, [x, y]) {
         label: fruitNo,
         friction: FRICTION,
         restitution: RESTITUTION,
+        removeOnRestart: true,
         
         render: {
             sprite: {
@@ -237,6 +243,7 @@ function lifeFruitBody(fruitNo, lifeFruitIndex, color) {
     }
     const fruit = Bodies.circle(((LIFEFRUIT_SIZE * 2) + LIFEFRUIT_MARGIN) * lifeFruitIndex + (LIFEFRUIT_SIZE + LIFEFRUIT_MARGIN), LIFEFRUIT_SIZE + LIFEFRUIT_MARGIN, LIFEFRUIT_SIZE, {
         label: 'lifeFruit',
+        removeOnRestart: true,
 
         isSensor: true,
         isStatic: true,
@@ -249,7 +256,6 @@ function lifeFruitBody(fruitNo, lifeFruitIndex, color) {
             }
         }
     });
-    console.log(fruit)
     return fruit;
 }
 
@@ -258,3 +264,25 @@ setInterval(() => {
     Composite.add(engine.world, fruitBody(0, [WIDTH/2, WIDTH/3]));
 },1000);
 
+
+// Process
+
+
+function startDemo() {
+    setLife(maxLife);
+}
+
+function startGame() {
+    const bodiesToRemove = engine.world.bodies.filter(body => body.removeOnRestart === true);
+    bodiesToRemove.forEach((v) =>  {Sleeping.set(v, true)});
+    World.remove(engine.world, bodiesToRemove);
+    setLife(maxLife);
+    console.log(bodiesToRemove)
+    isGaming = true;
+}
+
+function finishGame() {
+    const bodiesToRemove = engine.world.bodies.filter(body => body.removeOnRestart === true);
+    World.remove(engine.world, bodiesToRemove);
+    isGaming = false;
+}

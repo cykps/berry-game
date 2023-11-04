@@ -11,28 +11,44 @@ body {
 
 main {
     position: relative;
+    margin-bottom: -8px;
 
     width: 50dvh;
-    max-width: 100vw;
+    max-width: 100dvw;
+}
+
+canvas {
+    width: 50dvh;
+    max-width: 100dvw;
 }
 
 
 #score {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 5vh;
+    left: 0;
+
+    margin: 1vh;
+
+    font-size: 2vh;
 }
 
 #title-screen {
-    width: 512px;
-
     width: 50dvh;
-    max-width: 100vw;
-    height: 100%;
+    max-width: 100dvw;
+    height: 100dvh;
 
     position: absolute;
     top: 0;
     left: 0;
+    
+    text-align: center;
 
     background-color: rgba(0, 0, 200, 0.0);
+}
+
+#logo {
+    width: 70%;
+
+    margin-top: 20%;
 }
