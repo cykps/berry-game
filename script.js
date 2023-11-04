@@ -129,7 +129,9 @@ function start() {
     }
   }
 
+if (IS_IPhone) {
 start();
+}
 
 if (IS_ANDROID) { 
     window.addEventListener('deviceorientation', (e) => {
