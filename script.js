@@ -130,14 +130,13 @@ function start() {
   }
 
 
+
 if (IS_ANDROID) { 
     window.addEventListener('deviceorientation', (e) => {
-        const {x, y} = e.acceleration;
         engine.world.gravity.x = 100 * e.gamma;
     });
 } else if (IS_IPhone) {
     window.addEventListener('deviceorientation', (e) => {
-        const {x, y} = e.acceleration;
         engine.world.gravity.x = 100 * e.gamma;
     });
 }
