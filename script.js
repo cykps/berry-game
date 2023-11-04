@@ -129,7 +129,7 @@ function start() {
     }
   }
 
-
+start();
 
 if (IS_ANDROID) { 
     window.addEventListener('deviceorientation', (e) => {
