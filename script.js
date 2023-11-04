@@ -1,14 +1,14 @@
 "use strict";
 
 // const
-const WIDTH = 600;
+const WIDTH = 512;
 const HEIGHT = 1024;
 const BOWL_SIZE = 370;
 const BOWL_THICKNESS = 20;
 const RESTITUTION = 0.8;
 const FRICTION = 0.1;
 const SMALL_G = 9.8;
-const fruits = [['cranberry', 20, 0.16], ['blueberry', 50, 0.4], ['strawberry', 80, 0.62], ['blackberry', 110, 0.9], ['raspberry', 140, 1.14]];
+const fruits = [['cranberry', 30, 0.008], ['blueberry', 50, 0.008], ['strawberry', 70, 0.008], ['blackberry', 90, 0.008], ['raspberry', 120, 0.008]];
 const IS_ANDROID = /Android/.test(window.navigator.userAgent);
 const IS_IPhone = /iPhone/.test(window.navigator.userAgent);
 const DEGREES = Math.PI / 180;
@@ -85,27 +85,15 @@ function addGhostFruit() {
 // クリック時
 
 MATTER_ELE.addEventListener('click', () => {
-    let fruit = Bodies.circle(WIDTH/2, WIDTH/2, 20, {
-        label: "1",
-        render: {
-            sprite: {
-                texture: './src/img/cranberry_256.png',
-                xScale: 0.16,
-                yScale: 0.16,
-            }
-        }
-    });
-    Composite.add(engine.world, fruit);
+    Composite.add(engine.world, fruitBody(0, [WIDTH/2, WIDTH/3]));
 });
 
 
 // センサーによって、重力を変化させる。
 
-if (IS_IPhone) {    // alert("button");
-    alert('iPhone')
     // モーションセンサーが有効か？
     if (window.DeviceOrientationEvent) {
-      // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
+        // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
         if (DeviceOrientationEvent.requestPermission) {
             // ★モーションセンサーのアクセス許可をリクエストする
             DeviceOrientationEvent.requestPermission()
@@ -121,12 +109,12 @@ if (IS_IPhone) {    // alert("button");
             });
             // iOS13以外
             } else {
-            alert('設定から"モーションセンサー"をONにしてください');
+            alert('設定から"モーションセンサー"をONにしてください🙇');
         }
     } else {
-        alert("モーションセンサーが使えないかも...");
+        // alert("モーションセンサーがありません😭");
     }
-}
+
 
 if (IS_ANDROID) { 
     window.addEventListener('deviceorientation', (e) => {
@@ -156,77 +144,28 @@ Events.on(engine, 'collisionStart', e => {
             Sleeping.set(bodyB, true);
             World.remove(engine.world, [bodyA, bodyB]);
             let fruit = null;
-            switch (bodyA.label){
-                case '0':
-                    fruit = Bodies.circle(...position, fruits[0][1], {
-                        label: "1",
-                        render: {
-                            sprite: {
-                                texture: './src/img/blackberry_256.png',
-                                xScale: fruits[0][2],
-                                yScale: fruits[0][2],
-                            }
-                        }
-                    });
-                    Composite.add(engine.world, fruit);
-                    console.log(0,bodyA.label,bodyB.label);
-                    break;
-                case '1':
-                    fruit = Bodies.circle(...position, fruits[1][1], {
-                        label: "2",
-                        render: {
-                            sprite: {
-                                texture: `./src/img/${fruits[1][0]}_256.png`,
-                                xScale: fruits[1][2],
-                                yScale: fruits[1][2],
-                            }
-                        }});
-                    Composite.add(engine.world, fruit);
-                    console.log(1,bodyA.label,bodyB.label);
-                    break;
-                case '2':
-                    fruit = Bodies.circle(...position, fruits[2][1], {
-                        label: "3",
-                        render: {
-                            sprite: {
-                                texture: `./src/img/${fruits[2][0]}_256.png`,
-                                xScale: fruits[2][2],
-                                yScale: fruits[2][2],
-                            }
-                        }});
-                    Composite.add(engine.world, fruit);
-                    console.log(2,bodyA.label,bodyB.label);
-                    break;
-                case '3':
-                    fruit = Bodies.circle(...position, fruits[3][1], {
-                        label: "4",
-                        render: {
-                            sprite: {
-                                texture: `./src/img/${fruits[3][0]}_256.png`,
-                                xScale: fruits[3][2],
-                                yScale: fruits[3][2],
-                            }
-                        }});
-                    Composite.add(engine.world, fruit);
-                    console.log(3,bodyA.label,bodyB.label);
-                    break;
-                case '4':
-                    fruit = Bodies.circle(...position, fruits[4][1], {
-                        label: "5",
-                        render: {
-                            sprite: {
-                                texture: `./src/img/${fruits[4][0]}_256.png`,
-                                xScale: fruits[4][2],
-                                yScale: fruits[4][2],
-                            }
-                        }});
-                    Composite.add(engine.world, fruit);
-                    console.log(4,bodyA.label,bodyB.label);
-                    break;
+            if (bodyA.label <= 3) {
+                Composite.add(engine.world, fruitBody(bodyA.label + 1, position));
             }
-            
             break;
         }
     };
 });
 
+function fruitBody(fruitNo, [x, y]) {
+    const fruit = Bodies.circle(x, y, fruits[fruitNo][1], {
+        label: fruitNo,
+        render: {
+            sprite: {
+                texture: `./src/img/${fruits[fruitNo][0]}_256.png`,
+                xScale: (fruits[fruitNo][1] * fruits[fruitNo][2]),
+                yScale: (fruits[fruitNo][1] * fruits[fruitNo][2]),
+            }
+        }});
+    console.log(fruit)
+    return fruit;
+};
+
+setInterval(() => {
+    Composite.add(engine.world, fruitBody(0, [WIDTH/2, WIDTH/3]));
+},1000)
