@@ -190,8 +190,8 @@ Events.on(engine, 'collisionStart', e => {
             }
             console.log(fruits[bodyA.label][0]);
             setScore(score + fruits[bodyA.label][3]);
+	    break;
         };
-    break;
     };
 });
 
