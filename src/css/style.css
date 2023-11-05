@@ -30,7 +30,7 @@ canvas {
 
     margin: 1vh;
 
-    font-size: 2vh;
+    font-size: 3.4vh;
 }
 
 #title-screen {
@@ -59,6 +59,10 @@ canvas {
 
 #qr {
     width: 15dvh;
+
+    padding: 1dvh;
+
+    background-color: white;
 }
 
 #info-msg {

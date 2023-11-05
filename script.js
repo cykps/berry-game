@@ -120,8 +120,6 @@ MATTER_ELE.addEventListener('click', () => {
 window.alert = () => {}; // for Dev
 
 function enaSen() {
-if(IS_IPhone) {
-// モーションセンサーが有効か？
     if (window.DeviceOrientationEvent) {
         // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
         if (DeviceOrientationEvent.requestPermission) {
@@ -131,7 +129,7 @@ if(IS_IPhone) {
                 // リクエストが許可されたら
                     if (response === "granted") {
                       // deviceorientationが有効化される
-                    alert("モーションセンサーがONです🎉");
+                    alert("モーショ`ンセンサーがONです🎉");
                 }
             })
             .catch((e) => {
@@ -144,7 +142,6 @@ if(IS_IPhone) {
     } else {
         alert("モーションセンサーがありません😭");
     }
-}
 }
 
 // センサーによって、重力を変化させる。
@@ -290,6 +287,7 @@ function startDemo() {
 
 function startGame() {
     enaSen();
+    setScore(0);
     const bodiesToRemove = engine.world.bodies.filter(body => body.removeOnRestart === true);
     World.remove(engine.world, bodiesToRemove);
     setLife(maxLife);
@@ -307,7 +305,7 @@ function finishGame() {
 
 startButtonEle.addEventListener('click', startGame);
 
-if (window.DeviceOrientationEvent) {
+if (IS_ANDROID || IS_ANDROID) {
     pcEle.style.display = "none";
 } else {
     phoneEle.style.display = "none";
