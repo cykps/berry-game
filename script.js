@@ -117,30 +117,33 @@ MATTER_ELE.addEventListener('click', () => {
 // モーションセンサーの有効化
 window.alert = () => {}; // for Dev
 
+function enaSen() {
+if(IS_IPhone) {
 // モーションセンサーが有効か？
-if (window.DeviceOrientationEvent) {
-    // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
-    if (DeviceOrientationEvent.requestPermission) {
-        // ★モーションセンサーのアクセス許可をリクエストする
-        DeviceOrientationEvent.requestPermission()
-            .then(function (response) {
-            // リクエストが許可されたら
-                if (response === "granted") {
-                  // deviceorientationが有効化される
-                alert("モーションセンサーがONです🎉");
-            }
-        })
-        .catch((e) => {
-            console.log(e);
-        });
-        // iOS13以外
-        } else {
-        alert('設定から"モーションセンサー"をONにしてください🙇');
+    if (window.DeviceOrientationEvent) {
+        // ★iOS13向け: ユーザーにアクセスの許可を求める関数があるか？
+        if (DeviceOrientationEvent.requestPermission) {
+            // ★モーションセンサーのアクセス許可をリクエストする
+            DeviceOrientationEvent.requestPermission()
+                .then(function (response) {
+                // リクエストが許可されたら
+                    if (response === "granted") {
+                      // deviceorientationが有効化される
+                    alert("モーションセンサーがONです🎉");
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+            // iOS13以外
+            } else {
+            alert('設定から"モーションセンサー"をONにしてください🙇');
+        }
+    } else {
+        alert("モーションセンサーがありません😭");
     }
-} else {
-    alert("モーションセンサーがありません😭");
 }
-
+}
 
 // センサーによって、重力を変化させる。
 if (IS_ANDROID) { 
@@ -282,6 +285,7 @@ function startDemo() {
 }
 
 function startGame() {
+    enaSen();
     const bodiesToRemove = engine.world.bodies.filter(body => body.removeOnRestart === true);
     World.remove(engine.world, bodiesToRemove);
     setLife(maxLife);
