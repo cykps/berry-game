@@ -219,13 +219,7 @@ function setScore(newScore) {
 }
 
 function setLife(newLife) {
-    if (newLife <= 0) {
-        if (isGaming) {
-            finishGame();
-        } else {
-            startDemo();
-        }
-    } else if (maxLife < newLife) {
+    if (maxLife < newLife) {
         newLife = maxLife;
     }
     life = newLife
@@ -237,6 +231,13 @@ function setLife(newLife) {
             color =false;
         }
         Composite.add(engine.world, lifeFruitBody(lifeFruitNo, i, color));
+        if (newLife <= 0) {
+            if (isGaming) {
+                finishGame();
+            } else {
+                startDemo();
+            }
+        }
     };
 }
 
