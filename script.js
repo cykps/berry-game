@@ -30,6 +30,8 @@ let isGaming = false;
 let scoreEle = document.querySelector('#score');
 const startButtonEle = document.querySelector('#start');
 const titleScreenEle = document.querySelector('#title-screen');
+const phoneEle = document.querySelector('#phone');
+const pcEle = document.querySelector('#pc');
 
 // modules
 const { Engine, Render, Runner, Body, Bodies, Bounds, Common, Composite, Composites, Constraint, Events, Mouse, MouseConstraint, World, Sleeping} = Matter;
@@ -282,6 +284,8 @@ startDemo();
 function startDemo() {
     setLife(maxLife);
     setScore(0);
+    const bodiesToRemove = engine.world.bodies.filter(body => body.removeOnRestart === true);
+    World.remove(engine.world, bodiesToRemove);
 }
 
 function startGame() {
@@ -302,3 +306,9 @@ function finishGame() {
 }
 
 startButtonEle.addEventListener('click', startGame);
+
+if (window.DeviceOrientationEvent) {
+    pcEle.style.display = "none";
+} else {
+    phoneEle.style.display = "none";
+}

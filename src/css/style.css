@@ -47,10 +47,6 @@ canvas {
     background-color: rgba(0, 0, 200, 0.0);
 }
 
-#title-screen p {
-    font-size: 2dvh;
-}
-
 #logo {
     width: 70%;
 
@@ -59,4 +55,16 @@ canvas {
 
 #start {
     font-size: 4vh;
+}
+
+#qr {
+    width: 15dvh;
+}
+
+#info-msg {
+    margin: 0 10dvh;
+
+    font-size: 2dvh;
+    background-color: snow;
+    
 }
