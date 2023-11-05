@@ -305,7 +305,7 @@ function finishGame() {
 
 startButtonEle.addEventListener('click', startGame);
 
-if (IS_ANDROID || IS_ANDROID) {
+if (IS_ANDROID || IS_IPhone) {
     pcEle.style.display = "none";
 } else {
     phoneEle.style.display = "none";
